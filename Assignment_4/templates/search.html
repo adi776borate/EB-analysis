@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Electoral Bonds</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f0f2f5; /* Background color */
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        header {
+            background-color: #f0f2f5; /* Background color */
+            color: #333; /* Text color */
+            padding: 20px;
+            font-size: 24px;
+        }
+
+        form {
+            text-align: center;
+            margin-left: 20px;
+            margin-top: 20px;
+        }
+
+        input[type="text"] {
+            padding: 12px;
+            margin-right: 10px;
+            border: none;
+            background: #f0f2f5; /* Background color */
+            border-radius: 10px;
+            box-shadow: inset 7px 7px 10px #c8d1e0, inset -7px -7px 10px #ffffff; /* Neumorphism shadow */
+            outline: none;
+        }
+
+        button {
+            padding: 12px 24px;
+            background-color: #333; /* Button color */
+            color: #fff; /* Text color */
+            border: none;
+            cursor: pointer;
+            border-radius: 10px;
+            box-shadow: 5px 5px 10px #c8d1e0, -5px -5px 10px #ffffff; /* Neumorphism shadow */
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #555; /* Hover color */
+        }
+
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background: #f0f2f5; /* Background color */
+            box-shadow: 10px 10px 20px #c8d1e0, -10px -10px 20px #ffffff; /* Neumorphism shadow */
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #333; /* Header background color */
+            color: #fff; /* Header text color */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Search By Bond Number</h1>
+    </header>
+
+    <form action="/submit1" method="POST">
+        <label for="bond_number">Enter Bond Number:</label>
+        <input type="text" id="bond_number" name="bond_number">
+        <button type="submit">Search</button>
+    </form>
+  
+    {% if results %}
+    <h3>Redemption Details</h3>
+    <table action="/submit1" method="GET">
+        <thead>
+            <tr>
+                <th>Sr No.</th>
+                <th>Date Of Encashment</th>
+                <th>Name of the Political Party</th>
+                <th>Account no. of political party</th>
+                <th>Prefix</th>
+                <th>Bond Number</th>
+                <th>Denominations</th>
+                <th>Pay Branch Code</th>
+                <th>Pay Teller</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for result in results %}
+            <tr>
+                <td>{{ result[0] }}</td>
+                <td>{{ result[1] }}</td>
+                <td>{{ result[2] }}</td>
+                <td>{{ result[3] }}</td>
+                <td>{{ result[4] }}</td>
+                <td>{{ result[5] }}</td>
+                <td>{{ result[6] }}</td>
+                <td>{{ result[7] }}</td>
+                <td>{{ result[8] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+
+    {% if results2 %}
+    <h3>Purchase Details</h3>
+    <table action="/submit1" method="GET">
+        <thead>
+            <tr>
+                <th>Sr No.</th>
+                <th>Reference No (URN)</th>
+                <th>Journal Date</th>
+                <th>Date of Purchase</th>
+                <th>Date of Expiry</th>
+                <th>Name of the Purchaser</th>
+                <th>Prefix</th>
+                <th>Bond Number</th>
+                <th>Denominations</th>
+                <th>Issue Branch Code</th>
+                <th>Issue Teller</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for result in results2 %}
+            <tr>
+                <td>{{ result[0] }}</td>
+                <td>{{ result[1] }}</td>
+                <td>{{ result[2] }}</td>
+                <td>{{ result[3] }}</td>
+                <td>{{ result[4] }}</td>
+                <td>{{ result[5] }}</td>
+                <td>{{ result[6] }}</td>
+                <td>{{ result[7] }}</td>
+                <td>{{ result[8] }}</td>
+                <td>{{ result[9] }}</td>
+                <td>{{ result[10] }}</td>
+                <td>{{ result[11] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Total Donations Pie Chart</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+    <canvas id="donationsChart" width="700" height="700"></canvas>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const result = JSON.parse('{{ result | tojson | safe }}');
+            
+            const partyNames = result.map(item => item['Name of the Political Party']);
+            const totalDonations = result.map(item => item['Total_Donation']);
+
+            const ctx = document.getElementById('donationsChart').getContext('2d');
+            const myChart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: partyNames,
+                    datasets: [{
+                        label: 'Total Donations',
+                        data: totalDonations,
+                        backgroundColor: [
+                                        'rgba(0, 0, 0, 0.2)',
+                                        'rgba(31, 117, 254, 0.2)',
+                                        'rgba(180, 103, 77, 0.2)',
+                                        'rgba(28, 172, 120, 0.2)',
+                                        'rgba(255, 117, 56, 0.2)',
+                                        'rgba(238, 32, 77, 0.2)',
+                                        'rgba(146, 110, 174, 0.2)', 
+                                        'rgba(252, 232, 131, 0.2)', 
+                                        'rgba(115, 102, 189, 0.2)', 
+                                        'rgba(255, 170, 204, 0.2)', 
+                                        'rgba(13, 152, 186, 0.2)',
+                                        'rgba(192, 68, 143, 0.2)', 
+                                        'rgba(255, 83, 73, 0.2)', 
+                                        'rgba(93, 118, 203, 0.2)', 
+                                        'rgba(240, 232, 145, 0.2)',
+                                        'rgba(149, 145, 140, 0.2)', 
+                                        'rgba(253, 217, 181, 0.2)', 
+                                        'rgba(253, 219, 109, 0.2)', 
+                                        'rgba(29, 172, 214, 0.2)',
+                                        'rgba(252, 40, 71, 0.2)',
+                                        'rgba(247, 83, 148, 0.2)',
+                                        'rgba(197, 227, 132, 0.2)',
+                                        'rgba(0, 255, 255, 0.2)', 
+                                        'rgba(255, 174, 66, 0.2)' 
+                                    ],
+                                    borderColor:  [
+                                        'rgba(0, 0, 0, 1)',
+                                        'rgba(31, 117, 254, 1)',
+                                        'rgba(180, 103, 77, 1)',
+                                        'rgba(28, 172, 120, 1)',
+                                        'rgba(255, 117, 56, 0.2)',
+                                        'rgba(238, 32, 77, 1)',
+                                        'rgba(146, 110, 174, 1)', 
+                                        'rgba(252, 232, 131, 1)', 
+                                        'rgba(115, 102, 189, 1)', 
+                                        'rgba(255, 170, 204, 1)', 
+                                        'rgba(13, 152, 186, 1)',
+                                        'rgba(192, 68, 143, 1)', 
+                                        'rgba(255, 83, 73, 1)', 
+                                        'rgba(93, 118, 203, 1)', 
+                                        'rgba(240, 232, 145, 1)',
+                                        'rgba(149, 145, 140, 1)', 
+                                        'rgba(253, 217, 181, 1)', 
+                                        'rgba(253, 219, 109, 1)', 
+                                        'rgba(29, 172, 214, 1)',
+                                        'rgba(252, 40, 71, 1)',
+                                        'rgba(247, 83, 148, 1)',
+                                        'rgba(197, 227, 132, 1)',
+                                        'rgba(0, 255, 255, 1)', 
+                                        'rgba(255, 174, 66, 1)' 
+                                    ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false
+                }
+            });
+        });
+    </script>
+    
+</body>
+</html>

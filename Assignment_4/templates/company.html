@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Electoral Bonds Purchases</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        .selection {
+            margin-bottom: 20px;
+            background-color: #f2f2f2;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .selection select {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 2px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            padding: 8px 20px;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #555;
+        }
+
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #333;
+            color: #fff;
+        }
+
+        .charts-container {
+            display: flex; 
+        }
+
+        .chart {
+            flex: 1; 
+            margin-right: 10px; 
+        }
+        .save-button1 {
+            background-color: rgba(75, 192, 192, 0.2); 
+            border: 1px solid rgba(75, 192, 192, 1);
+            color: rgba(75, 192, 192, 1);
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 10px;
+        }
+        .save-button1:hover {
+            background-color: rgba(75, 192, 192, 0.4);
+        }
+        .save-button2 {
+            background-color: rgba(142, 86, 255, 0.2); 
+            border: 1px solid rgba(127, 77, 251, 1);
+            color: rgba(127, 77, 251, 1);
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 10px;
+        }
+        .save-button2:hover {
+            background-color: rgba(142, 86, 255, 0.4);
+        }
+
+
+    </style>
+</head>
+
+
+<body>
+    <h1>Electoral Bonds Purchases</h1>
+    <div class="selection">
+        <form action="/submit2" method="POST">
+            <label for="companySelect">Select Company/Individual:</label>
+            <select id="companySelect" name="company">
+                {% for company in companies %}
+                <option value="{{ company }}">{{ company }}</option>
+                {% endfor %}
+            </select><br>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+
+    {% if bonds %}
+    <h3>Purchase details of {{ selected_company }}:</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Year</th>
+                <th>Number of Bonds Purchased</th>
+                <th>Total Value of Bonds (in Rs)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for bond in bonds %}
+            <tr>
+                <td>20{{ bond['YEAR'] }}</td>
+                <td>{{ bond['No_Of_Bonds_Purchased']}}</td>
+                <td>{{ bond['Total_Value_Purchased']}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {% endif %}
+
+    {% if year %}
+    <hr style="width: 100%; margin: 0;">
+    <div class="charts-container">
+        <div class="chart">
+            <canvas id="myChart1" style="max-width: 600px; max-height: 500px;"></canvas>
+        </div>
+        <div class="chart">
+            <canvas id="myChart2" style="max-width: 600px; max-height: 500px;"></canvas>
+        </div>
+    </div>
+    
+
+    <script>
+        // Retrieve data from Flask route
+        var year = JSON.parse('{{ year | tojson | safe }}');
+        var n = JSON.parse('{{ n | tojson | safe }}');
+        var t = JSON.parse('{{ t | tojson | safe }}');
+
+        // Create chart
+        var ctx = document.getElementById('myChart1').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: year,
+                datasets: [{
+                    label: 'Number of Bonds Purchased per Year',
+                    data: n,
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    x: {
+                        type: 'category', 
+                        position: 'bottom', 
+                        title: {
+                            display: true,
+                            text: 'Year' 
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Number of Bonds Purchased' 
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+
+    <script>
+        var ctx = document.getElementById('myChart2').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: year,
+                datasets: [{
+                    label: 'Total Value of Bonds Purchased per Year (in Rs)',
+                    data: t,
+                    backgroundColor: 'rgba(142, 86, 255, 0.2)',
+                    borderColor: 'rgba(127, 77, 251, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    x: {
+                        type: 'category', 
+                        position: 'bottom', 
+                        title: {
+                            display: true,
+                            text: 'Year' 
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Total Value of Bonds Purchased (in Rs)' 
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+
+    <button id="saveButton1" type="button" class="save-button1">Save Chart1 as Image</button>
+    <button id="saveButton2" type="button" class="save-button2">Save Chart2 as Image</button>
+
+    {% endif %}
+
+    <script>
+        document.getElementById('saveButton1').addEventListener('click', function() {
+
+    var canvas = document.getElementById('myChart1');
+
+    
+    html2canvas(canvas).then(function(canvas) {
+        
+        var imageData = canvas.toDataURL('image/png');
+        
+        var link = document.createElement('a');
+        link.download = 'chart1.png'; 
+        link.href = imageData; 
+
+        document.body.appendChild(link);
+        link.click();
+
+        document.body.removeChild(link);
+    });
+});
+
+document.getElementById('saveButton2').addEventListener('click', function() {
+    
+    var canvas = document.getElementById('myChart2');
+
+   
+    html2canvas(canvas).then(function(canvas) {
+        
+        var imageData = canvas.toDataURL('image/png');
+        
+        var link = document.createElement('a');
+        link.download = 'chart2.png'; 
+        link.href = imageData; 
+
+        
+        document.body.appendChild(link); 
+        link.click();
+
+        
+        document.body.removeChild(link);
+    });
+});
+
+    </script>
+
+</body>
+</html>
+

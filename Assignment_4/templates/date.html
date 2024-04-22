@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redemption and Purchase Dates Timeline</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h1>Redemption Dates Timeline</h1>
+    <canvas id="lineChart" width="800" height="400"></canvas>
+
+    <script>
+        // Retrieve data from Flask route
+        var dates = JSON.parse('{{ dates | tojson | safe }}');
+        var counts = JSON.parse('{{ counts | tojson | safe }}');
+    
+        // Creating the line chart for Redemption Dates
+        var ctx1 = document.getElementById('lineChart').getContext('2d');
+        var myChart1 = new Chart(ctx1, {
+            type: 'line',
+            data: {
+                labels: dates,
+                datasets: [{
+                    label: 'Counts',
+                    data: counts,
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Date of Encashment'
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Counts'
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+
+    <h1>Purchase Dates Timeline</h1>
+    <canvas id="lineChart2" width="800" height="400"></canvas>
+
+    <script>
+        // Retrieve data from Flask route
+        var dates2 = JSON.parse('{{ dates2 | tojson | safe }}');
+        var counts2 = JSON.parse('{{ counts2 | tojson | safe }}');
+
+        // Creating the line chart for Purchase Dates
+        var ctx2 = document.getElementById('lineChart2').getContext('2d');
+        var myChart2 = new Chart(ctx2, {
+            type: 'line',
+            data: {
+                labels: dates2,
+                datasets: [{
+                    label: 'Counts',
+                    data: counts2,
+                    backgroundColor: 'rgba(142, 86, 255, 0.2)',
+                    borderColor: 'rgba(142, 86, 255, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Date of Purchase'
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Counts'
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

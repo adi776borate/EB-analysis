@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donation Receive Details</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        .selection {
+            margin-bottom: 20px;
+            background-color: #f2f2f2;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .selection select {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 2px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            padding: 8px 20px;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #555;
+        }
+
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #333;
+            color: #fff;
+        }
+
+        canvas {
+            border: 1px solid #ccc;
+            margin-top: 20px;
+        }
+
+    </style>
+</head>
+
+
+<body>
+    <div class="selection">
+        <form action="/submit4" method="POST">
+            <label for="partySelect">Select Political Party:</label>
+            <select id="partySelect" name="party1">
+                {% for party in parties %}
+                <option value="{{ party }}">{{ party }}</option>
+                {% endfor %}
+            </select><br>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+
+    {% if result %}
+    <h3>Donation Receive Detials of {{ selected_party }}:</h3>
+    The combined donation received by {{selected_party}} from these companies is Rs. {{total}}.
+    <table>
+        <thead>
+            <tr>
+                <th>Companies which have donated</th>
+                <th>Denominations (in Rs)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for res in result %}
+            <tr>
+                <td>{{ res['Name of the Purchaser']}}</td>
+                <td>{{ res['Denominations']}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    {% endif %}
+   
+ 
+
+</body>
+</html>

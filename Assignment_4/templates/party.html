@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Electoral Bonds in the Timeline</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        .selection {
+            margin-bottom: 20px;
+            background-color: #f2f2f2;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .selection select {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 2px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            padding: 8px 20px;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #555;
+        }
+
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #333;
+            color: #fff;
+        }
+
+        .charts-container {
+            display: flex; 
+        }
+
+        .chart {
+            flex: 1; 
+            margin-right: 10px; 
+        }
+        .save-button1 {
+            background-color: rgba(75, 192, 192, 0.2); 
+            border: 1px solid rgba(75, 192, 192, 1);
+            color: rgba(75, 192, 192, 1);
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 10px;
+        }
+        .save-button1:hover {
+            background-color: rgba(75, 192, 192, 0.4);
+        }
+        .save-button2 {
+            background-color: rgba(142, 86, 255, 0.2); 
+            border: 1px solid rgba(127, 77, 251, 1);
+            color: rgba(127, 77, 251, 1);
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 10px;
+        }
+        .save-button2:hover {
+            background-color: rgba(142, 86, 255, 0.4);
+        }
+
+    </style>
+</head>
+
+
+<body>
+    <h1>Electoral Bonds in the Timeline</h1>
+    <div class="selection">
+        <form action="/submit3" method="POST">
+            <label for="partySelect">Select Political Party:</label>
+            <select id="partySelect" name="party">
+                {% for party in parties %}
+                <option value="{{ party }}">{{ party }}</option>
+                {% endfor %}
+            </select><br>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+
+    {% if bonds %}
+    <h3>Redemption details of {{ selected_party }}:</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Year</th>
+                <th>Number of Bonds in the Timeline</th>
+                <th>Total Value of Bonds (in Rs)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for bond in bonds %}
+            <tr>
+                <td>20{{ bond['YEAR'] }}</td>
+                <td>{{ bond['No_Of_Bonds']}}</td>
+                <td>{{ bond['Total_Value']}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {% endif %}
+
+    {% if year %}
+    <hr style="width: 100%; margin: 0;">
+    <div class="charts-container">
+        <div class="chart">
+            <canvas id="myChart3" style="max-width: 600px; max-height: 500px;"></canvas>
+        </div>
+        <div class="chart">
+            <canvas id="myChart4" style="max-width: 600px; max-height: 500px;"></canvas>
+        </div>
+    </div>
+    
+
+    <script>
+        // Retrieve data from Flask route
+        var year = JSON.parse('{{ year | tojson | safe }}');
+        var n = JSON.parse('{{ n | tojson | safe }}');
+        var t = JSON.parse('{{ t | tojson | safe }}');
+
+        // Create chart
+        var ctx = document.getElementById('myChart3').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: year,
+                datasets: [{
+                    label: 'Number of Bonds in the Timeline',
+                    data: n,
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    x: {
+                        type: 'category', // Specify the type of scale (category for labels)
+                        position: 'bottom', // Position of the x-axis
+                        title: {
+                            display: true,
+                            text: 'Year' // Label for the x-axis
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Number of Bonds in the Timeline' // Label for the y-axis
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+
+    <script>
+        var ctx = document.getElementById('myChart4').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: year,
+                datasets: [{
+                    label: 'Total Value of Bonds per Year (in Rs)',
+                    data: t,
+                    backgroundColor: 'rgba(142, 86, 255, 0.2)',
+                    borderColor: 'rgba(127, 77, 251, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    x: {
+                        type: 'category', // Specify the type of scale (category for labels)
+                        position: 'bottom', // Position of the x-axis
+                        title: {
+                            display: true,
+                            text: 'Year' // Label for the x-axis
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Total Value of Bonds (in Rs)' // Label for the y-axis
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+
+    <button id="saveButton3" type="button" class="save-button1">Save Chart1 as Image</button>
+    <button id="saveButton4" type="button" class="save-button2">Save Chart2 as Image</button>
+
+    {% endif %}
+
+    <script>
+        document.getElementById('saveButton3').addEventListener('click', function() {
+    // Select the chart canvas element
+    var canvas = document.getElementById('myChart3');
+
+    // Use html2canvas to capture the canvas content
+    html2canvas(canvas).then(function(canvas) {
+        // Convert the canvas content to a data URL representing a PNG image
+        var imageData = canvas.toDataURL('image/png');
+        // Create a temporary link element
+        var link = document.createElement('a');
+        link.download = 'chart3.png'; // Set the default filename for the downloaded image
+        link.href = imageData; // Set the data URL as the href attribute
+
+        // Trigger a click event on the link to initiate the download
+        document.body.appendChild(link); // Required for Firefox
+        link.click();
+
+        // Remove the link from the document
+        document.body.removeChild(link);
+    });
+});
+
+document.getElementById('saveButton4').addEventListener('click', function() {
+    // Select the chart canvas element
+    var canvas = document.getElementById('myChart4');
+
+    // Use html2canvas to capture the canvas content
+    html2canvas(canvas).then(function(canvas) {
+        // Convert the canvas content to a data URL representing a PNG image
+        var imageData = canvas.toDataURL('image/png');
+        // Create a temporary link element
+        var link = document.createElement('a');
+        link.download = 'chart4.png'; // Set the default filename for the downloaded image
+        link.href = imageData; // Set the data URL as the href attribute
+
+        // Trigger a click event on the link to initiate the download
+        document.body.appendChild(link); // Required for Firefox
+        link.click();
+
+        // Remove the link from the document
+        document.body.removeChild(link);
+    });
+});
+
+    </script>
+
+</body>
+</html>

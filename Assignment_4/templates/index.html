@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Electoral Bond Analysis</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: #ebeef1;
+            font-family: 'Poppins',sans-serif ;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .buttons-container {
+            height: 100vh;
+            background: #ebeef1;
+            display: flex;
+            justify-content:center ;
+        }
+
+        .button {
+            font-size: 16px;
+            font-weight: 500;
+            padding: 20px;
+            margin: 20px;
+            width: 250px;
+            background:#ebeef1;
+            cursor: pointer;
+            border: none;
+            border-radius: 50px;
+            color: #00a037;
+            box-shadow: 10px 10px 10px -1px rgba(10,99,169,0.16),
+                        -10px -10px 10px -1px rgba(255,255,255,0.70);
+        }
+
+        .button:hover {
+            background-color: rgb(167, 229, 167);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Electoral Bond Analysis</h1>
+    </header>
+
+    <div class="buttons-container">
+        <div class="button-form">
+            <form action="/search">
+                <button class="button" type="submit">Search</button> 
+            </form>
+            <form action="/company">
+                <button class="button" type="submit">Company Analysis</button> 
+            </form>
+            <form action="/party">
+                <button class="button" type="submit">Political Party Analysis</button> 
+            </form>
+            <form action="/donation-receive">
+                <button class="button" type="submit">Donation Receive Analysis</button> 
+            </form>
+            <form action="/donation-given">
+                <button class="button" type="submit">Donation Given Analysis</button> 
+            </form>
+            <form action="/total-donation">
+                <button class="button" type="submit">Total Donation Analysis</button> 
+            </form>
+            <form action="/date">
+                <button class="button" type="submit">Date Analysis <br>(*Extra Feature)</button> 
+            </form>
+        </div>
+</body>
+</html>
