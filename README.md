@@ -3,7 +3,7 @@
 This project aims to design a website with a fully integrated backend for analyzing electoral bond data. 
 The website allows users to search, filter, and visualize electoral bond information such as purchases by individuals and companies, redemptions by political parties, donations given and received, and more.
 
-##Web Design Features
+## Web Design Features
 
 **Features**
 I have implmented following features in my website, you can access all these through index page.
