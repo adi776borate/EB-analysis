@@ -30,7 +30,7 @@ I have implmented following features in my website, you can access all these thr
 
 ## Instructions for Setting Up the Website Locally
 
-1. Clone the GitHub repository: `git clone <repository_url>`
+1. Clone the GitHub repository: `git clone <https://github.com/adi776borate/EB-analysis.git>`
 2. Install dependencies: `pip install -r requirements.txt`
 3. Run the Flask application: `python main.py`
 4. Open a web browser and navigate to `http://localhost:5000` to access the website.
