@@ -6,6 +6,7 @@ The website allows users to search, filter, and visualize electoral bond informa
 ## Web Design Features
 
 **Features**
+
 I have implmented following features in my website, you can access all these through index page.
 
    - A robust search functionality based on bond number  to quickly search for specific records.
