@@ -30,15 +30,12 @@ I have implmented following features in my website, you can access all these thr
 - `README.md`: Instructions for setting up the website locally and documenting the project.
 
 ## Instructions for Setting Up the Website Locally
+1. Head to a directory on your device where you want to save/load this repository and open that directory in the terminal.
+2. Clone the GitHub repository: `git clone https://github.com/adi776borate/EB-analysis.git`
+3. Install dependencies: `pip install -r requirements.txt`
+4. Run the Flask application: `python main.py`
+5. Open a web browser and navigate to `http://localhost:5000` to access the website.
 
-1. Clone the GitHub repository: `git clone <https://github.com/adi776borate/EB-analysis.git>`
-2. Install dependencies: `pip install -r requirements.txt`
-3. Run the Flask application: `python main.py`
-4. Open a web browser and navigate to `http://localhost:5000` to access the website.
-
-## Screenshots
-
-All the screenshots of UI are captured and stored in thi
 
 ## Acknowledgements
 
